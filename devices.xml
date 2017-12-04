@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<devices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="andrei.example"
+         xsi:schemaLocation="andrei.example devicesSchema.xsd">
+
+    <device id="_1">
+        <name>Philips p250</name>
+        <origin>China</origin>
+        <price>200</price>
+        <headPhones>
+            <consumption>10</consumption>
+            <group>multimedia</group>
+            <ports>AUX</ports>
+            <sensitivity>97dB</sensitivity>
+        </headPhones>
+        <critical>false</critical>
+    </device>
+
+    <device id="_2">
+        <name>R3 1200(B0X)</name>
+        <origin>China</origin>
+        <price>120</price>
+        <processor cooler="true">
+            <consumption>65</consumption>
+            <group>I/O devices</group>
+            <socket>AM4</socket>
+            <frequency>3.4gHz</frequency>
+            <cores>4</cores>
+        </processor>
+        <critical>true</critical>
+    </device>
+
+    <device id="_3">
+        <name>i3 8100</name>
+        <origin>China</origin>
+        <price>120</price>
+        <processor cooler="false">
+            <consumption>65</consumption>
+            <group>I/O devices</group>
+            <socket>LGA1151</socket>
+            <frequency>3.6gHz</frequency>
+            <cores>4</cores>
+        </processor>
+        <critical>true</critical>
+    </device>
+
+    <device id="_4">
+        <name>i5 8400</name>
+        <origin>China</origin>
+        <price>185</price>
+        <processor cooler="false">
+            <consumption>95</consumption>
+            <group>I/O devices</group>
+            <socket>LGA1151</socket>
+            <frequency>4.0gHz</frequency>
+            <cores>1</cores>
+        </processor>
+        <critical>true</critical>
+    </device>
+
+    <device id="_5">
+        <name>R7 1800x(BOX)</name>
+        <origin>China</origin>
+        <price>350</price>
+        <processor cooler="true">
+            <consumption>95</consumption>
+            <group>I/O devices</group>
+            <socket>AM4</socket>
+            <frequency>4.0gHz</frequency>
+            <cores>8</cores>
+        </processor>
+        <critical>true</critical>
+    </device>
+
+    <device id="_6">
+        <name>i7 7700k</name>
+        <origin>China</origin>
+        <price>300</price>
+        <processor cooler="false">
+            <consumption>95</consumption>
+            <group>I/O devices</group>
+            <socket>LGA1151</socket>
+            <frequency>4.5gHz</frequency>
+            <cores>4</cores>
+        </processor>
+        <critical>true</critical>
+    </device>
+
+    <device id="_7">
+        <name>Asus gtx 1050ti</name>
+        <origin>China</origin>
+        <price>150</price>
+        <videoCard cooler="true">
+            <consumption>120</consumption>
+            <group>I/O devices</group>
+            <ports>DVI</ports>
+            <ports>HDMI</ports>
+            <frequency>1200hz</frequency>
+            <memorySize>4gb</memorySize>
+        </videoCard>
+        <critical>true</critical>
+    </device>
+
+    <device id="_8">
+        <name>SteelSeries V1</name>
+        <origin>China</origin>
+        <price>50</price>
+        <headPhones>
+            <consumption>20</consumption>
+            <group>multimedia</group>
+            <ports>AUX</ports>
+            <sensitivity>96dB</sensitivity>
+        </headPhones>
+        <critical>false</critical>
+    </device>
+
+    <device id="_9">
+        <name>Sennheiser CX300</name>
+        <origin>Germany</origin>
+        <price>50</price>
+        <headPhones>
+            <consumption>15</consumption>
+            <group>multimedia</group>
+            <ports>AUX</ports>
+            <sensitivity>90dB</sensitivity>
+        </headPhones>
+        <critical>false</critical>
+    </device>
+
+    <device id="_10">
+        <name>Palit gtx 1060</name>
+        <origin>China</origin>
+        <price>220</price>
+        <videoCard cooler="true">
+            <consumption>140</consumption>
+            <group>I/O devices</group>
+            <ports>DVI</ports>
+            <ports>HDMI</ports>
+            <frequency>1400mHz</frequency>
+            <memorySize>3gb</memorySize>
+        </videoCard>
+        <critical>false</critical>
+    </device>
+
+    <device id="_11">
+        <name>MSI gtx 1070</name>
+        <origin>China</origin>
+        <price>300</price>
+        <videoCard cooler="true">
+            <consumption>160</consumption>
+            <group>I/O devices</group>
+            <ports>DVI</ports>
+            <frequency>1700mHz</frequency>
+            <memorySize>6gb</memorySize>
+        </videoCard>
+        <critical>false</critical>
+    </device>
+
+    <device id="_12">
+        <name>MSI gtx 1070ti</name>
+        <origin>China</origin>
+        <price>340</price>
+        <videoCard cooler="true">
+            <consumption>180</consumption>
+            <group>I/O devices</group>
+            <ports>DVI</ports>
+            <frequency>1700mHz</frequency>
+            <memorySize>6gb</memorySize>
+        </videoCard>
+        <critical>false</critical>
+    </device>
+
+    <device id="_13">
+        <name>Gigabyte gtx 1080</name>
+        <origin>China</origin>
+        <price>400</price>
+        <videoCard cooler="true">
+            <consumption>250</consumption>
+            <group>I/O devices</group>
+            <ports>DVI</ports>
+            <frequency>2gHz</frequency>
+            <memorySize>11gb</memorySize>
+        </videoCard>
+        <critical>false</critical>
+    </device>
+
+    <device id="_14">
+        <name>MSI RX Vega x56</name>
+        <origin>South Korea</origin>
+        <price>500</price>
+        <videoCard cooler="true">
+            <consumption>250</consumption>
+            <group>I/O devices</group>
+            <ports>DVI</ports>
+            <frequency>1437mHz</frequency>
+            <memorySize>8gb</memorySize>
+        </videoCard>
+        <critical>false</critical>
+    </device>
+
+    <device id="_15">
+        <name>ASUS RX Vega x64</name>
+        <origin>South Korea</origin>
+        <price>550</price>
+        <videoCard cooler="true">
+            <consumption>300</consumption>
+            <group>I/O devices</group>
+            <ports>DVI</ports>
+            <frequency>124mHz</frequency>
+            <memorySize>8gb</memorySize>
+        </videoCard>
+        <critical>false</critical>
+    </device>
+
+    <device id="_16">
+        <name>Titan Xp</name>
+        <origin>China</origin>
+        <price>1200</price>
+        <videoCard cooler="true">
+            <consumption>300</consumption>
+            <group>I/O devices</group>
+            <ports>HDMI</ports>
+            <frequency>1582mHz</frequency>
+            <memorySize>12gb</memorySize>
+        </videoCard>
+        <critical>false</critical>
+    </device>
+</devices>
+
+
