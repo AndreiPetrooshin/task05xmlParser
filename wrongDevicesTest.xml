@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<devices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="andrei.example"
+         xsi:schemaLocation="andrei.example devicesSchema.xsd">
+
+    <device id="_1">
+        <name>R7 1800x(BOX)</name>
+        <origin>China</origin>
+        <price>350</price>
+        <wrongprocessor cooler="true" peripheral="true">
+            <consumption>95</consumption>
+            <group>I/O devices</group>
+            <socket>AM4</socket>
+            <frequency>4.0gHz</frequency>
+            <cores>8</cores>
+        </wrongprocessor>
+        <critical>true</critical>
+    </device>
+
+    <device id="_2">
+        <name>Sennheiser CX300</name>
+        <origin>Germany</origin>
+        <price>50</price>
+        <headPhones peripheral="false">
+            <consumption>15</consumption>
+            <group>multimedia</group>
+            <ports>AUX</ports>
+            <sensitivity>90dB</sensitivity>
+        </headPhones>
+        <critical>false</critical>
+    </device>
+
+    <device id="_3">
+        <name>Palit gtx 1060</name>
+        <origin>China</origin>
+        <price>220</price>
+        <videoCard cooler="true" peripheral="true">
+            <consumption>140</consumption>
+            <group>I/O devices</group>
+            <ports>DVI</ports>
+            <ports>HDMI</ports>
+            <frequency>1400mHz</frequency>
+            <memorySize>3gb</memorySize>
+        </videoCard>
+        <critical>false</critical>
+    </device>
+</devices>

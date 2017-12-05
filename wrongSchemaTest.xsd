@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="andrei.example"
+        xmlns:tns="andrei.example"
+        elementFormDefault="qualified">
+
+    <!--Elements at schema-->
+    <element name="wrongType" type="tns:Type" abstract="true"/>
+    <element name="videoCard" type="tns:VideoCard" substitutionGroup="tns:wrongType"/>
+    <element name="processor" type="tns:Processor" substitutionGroup="tns:wrongType"/>
+    <element name="headPhones" type="tns:HeadPhones" substitutionGroup="tns:wrongType"/>
+    <element name="devices">
+        <complexType>
+            <sequence>
+                <element name="wronGdevice"
+                         type="tns:device"
+                         minOccurs="1"
+                         maxOccurs="unbounded"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <!--Simple Type Enumerations-->
+    <simpleType name="ports">
+        <restriction base="string">
+            <enumeration value="USB"/>
+            <enumeration value="LPT"/>
+            <enumeration value="HDMI"/>
+            <enumeration value="DVI"/>
+            <enumeration value="AUX"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="socket">
+        <restriction base="string">
+            <enumeration value="AM3"/>
+            <enumeration value="AM4"/>
+            <enumeration value="LGA1151"/>
+            <enumeration value="LGA1156"/>
+            <enumeration value="LGA1150"/>
+        </restriction>
+    </simpleType>
+
+
+    <!--Complex types at schema-->
+    <complexType name="device">
+        <sequence>
+            <element name="name" type="string"/>
+            <element name="origin" type="string"/>
+            <element name="price" type="positiveInteger"/>
+            <element ref="tns:wrongType" maxOccurs="1"/>
+            <element name="critical" type="boolean"/>
+        </sequence>
+        <attribute name="id" type="ID" use="required"/>
+    </complexType>
+
+    <complexType name="Type">
+        <sequence>
+            <element name="consumption">
+                <simpleType>
+                    <restriction base="integer">
+                        <minInclusive value="0"/>
+                        <maxExclusive value="2000"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="group">
+                <simpleType>
+                    <restriction base="string">
+                        <enumeration value="multimedia"/>
+                        <enumeration value="I/O devices"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+        <attribute name="peripheral" type="boolean" use="optional" default="true"/>
+    </complexType>
+
+    <complexType name="Processor">
+        <complexContent>
+            <extension base="tns:Type">
+                <sequence>
+                    <element name="socket" type="tns:socket"/>
+                    <element name="frequency" type="string"/>
+                    <element name="cores" >
+                        <simpleType>
+                            <restriction base="integer">
+                                <minInclusive value="1"/>
+                            </restriction>
+                        </simpleType>
+                    </element>
+                </sequence>
+                <attribute name="cooler" type="boolean" use="required"/>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <complexType name="HeadPhones">
+        <complexContent>
+            <extension base="tns:Type">
+                <sequence>
+                    <element name="ports" type="tns:ports" maxOccurs="unbounded"/>
+                    <element name="sensitivity" type="string"/>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <complexType name="VideoCard">
+        <complexContent>
+            <extension base="tns:Type">
+                <sequence>
+                    <element name="ports" type="tns:ports" maxOccurs="unbounded"/>
+                    <element name="frequency" type="string"/>
+                    <element name="memorySize" type="string"/>
+                </sequence>
+                <attribute name="cooler" type="boolean" use="required"/>
+            </extension>
+        </complexContent>
+    </complexType>
+
+
+</schema>
