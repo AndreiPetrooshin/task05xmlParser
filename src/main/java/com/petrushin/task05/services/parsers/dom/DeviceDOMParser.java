@@ -1,7 +1,7 @@
 package com.petrushin.task05.services.parsers.dom;
 
-import com.petrushin.task05.builder.DeviceDOMBuilder;
 import com.petrushin.task05.domain.Device;
+import com.petrushin.task05.services.builder.DeviceDOMBuilderService;
 import com.petrushin.task05.services.parsers.Parser;
 import com.petrushin.task05.validator.XsdSchemaValidator;
 import org.apache.logging.log4j.LogManager;
@@ -16,6 +16,14 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Class for parsing xml File by using
+ * DOM model.
+ *
+ * @author Andrei Petrushin
+ * @version 1.0.0
+ */
+
 public class DeviceDOMParser implements Parser {
 
     private static final Logger LOGGER = LogManager.getLogger(DeviceDOMParser.class);
@@ -28,7 +36,7 @@ public class DeviceDOMParser implements Parser {
         try {
             documentBuilder = documentBuilderFactory.newDocumentBuilder();
             document = documentBuilder.parse(xmlLocation);
-            DeviceDOMBuilder builder = new DeviceDOMBuilder();
+            DeviceDOMBuilderService builder = new DeviceDOMBuilderService();
             devices = builder.buildDevices(document);
         } catch (ParserConfigurationException | SAXException | IOException e) {
             LOGGER.error("Exception with element parse:{}", e);

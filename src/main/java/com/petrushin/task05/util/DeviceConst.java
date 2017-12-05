@@ -1,5 +1,9 @@
-package com.petrushin.task05.domain;
+package com.petrushin.task05.util;
 
+/**
+ * Interface in witch all the names of the
+ * schema tagName and attributes are located.
+ * */
 public interface DeviceConst {
 
     String DEVICE = "device";

@@ -1,10 +1,9 @@
 package com.petrushin.task05.services.parsers.sax;
 
-import com.petrushin.task05.builder.DeviceBuilder;
-import com.petrushin.task05.builder.TypeBuilder;
 import com.petrushin.task05.domain.Device;
 import com.petrushin.task05.domain.Type;
 import com.petrushin.task05.domain.enums.DeviceEnum;
+import com.petrushin.task05.services.builder.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.xml.sax.Attributes;
@@ -13,31 +12,42 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import java.util.*;
 
-import static com.petrushin.task05.domain.DeviceConst.*;
+import static com.petrushin.task05.util.DeviceConst.*;
 
-public class DeviceHandler extends DefaultHandler {
+/**
+ * DevicesSAXHandler class extends {@link DefaultHandler}
+ * for handling our xml document.
+ *
+ * @author Andrei Petrushin
+ * @version 1.0.0
+ */
 
-    private static final Logger LOGGER = LogManager.getLogger(DeviceHandler.class);
+public class DeviceSAXHandler extends DefaultHandler {
 
-    private final DeviceBuilder deviceBuilder;
+    private static final Logger LOGGER = LogManager.getLogger(DeviceSAXHandler.class);
 
     private List<Device> devices;
     private Device currentDevice;
     private DeviceEnum currentEnum;
+    private Type currentType;
+    private DeviceBuilderService deviceBuilder;
+    private TypeBuilderService typeBuilder;
     private EnumSet<DeviceEnum> withText;
     private EnumSet<DeviceEnum> complexElements;
 
 
-    public DeviceHandler(DeviceBuilder deviceBuilder) {
-        devices = new ArrayList<>();
-        withText = EnumSet.range(DeviceEnum.NAME, DeviceEnum.SENSITIVITY);
-        complexElements = EnumSet.range(DeviceEnum.DEVICE, DeviceEnum.PROCESSOR);
+    DeviceSAXHandler(DeviceBuilderService deviceBuilder) {
+
         this.deviceBuilder = deviceBuilder;
 
     }
 
+
     @Override
     public void startDocument() throws SAXException {
+        devices = new ArrayList<>();
+        withText = EnumSet.range(DeviceEnum.NAME, DeviceEnum.SENSITIVITY);
+        complexElements = EnumSet.range(DeviceEnum.DEVICE, DeviceEnum.PROCESSOR);
         LOGGER.info("SAX Parse starts");
     }
 
@@ -54,10 +64,9 @@ public class DeviceHandler extends DefaultHandler {
             if (withText.contains(temp)) {
                 currentEnum = temp;
             } else if (complexElements.contains(temp)) {
-                TypeBuilder typeBuilder = deviceBuilder.getTypeBuilder();
                 attributeMap = convertAttributesToMap(attributes, qName);
-                Type type = typeBuilder.buildType(qName, attributeMap);
-                currentDevice.setType(type);
+                initTypeBuilder(qName, attributeMap);
+                currentDevice.setType(currentType);
             }
         }
     }
@@ -65,44 +74,43 @@ public class DeviceHandler extends DefaultHandler {
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
         String str = new String(ch, start, length).trim();
-        TypeBuilder typeBuilder = deviceBuilder.getTypeBuilder();
         if (currentEnum != null) {
             switch (currentEnum) {
                 case NAME:
-                    deviceBuilder.buildName(str);
+                    deviceBuilder.buildName(currentDevice, str);
                     break;
                 case ORIGIN:
-                    deviceBuilder.buildOrigin(str);
+                    deviceBuilder.buildOrigin(currentDevice, str);
                     break;
                 case PRICE:
-                    deviceBuilder.buildPrice(str);
+                    deviceBuilder.buildPrice(currentDevice, str);
                     break;
                 case CONSUMPTION:
-                    typeBuilder.buildConsumption(str);
+                    typeBuilder.buildConsumption(currentType, str);
                     break;
                 case GROUP:
-                    typeBuilder.buildGroup(str);
+                    typeBuilder.buildGroup(currentType, str);
                     break;
                 case SOCKET:
-                    typeBuilder.buildSocket(str);
+                    typeBuilder.buildSocket(currentType, str);
                     break;
                 case FREQUENCY:
-                    typeBuilder.buildFrequency(str);
+                    typeBuilder.buildFrequency(currentType, str);
                     break;
                 case CORES:
-                    typeBuilder.buildCores(str);
+                    typeBuilder.buildCores(currentType, str);
                     break;
                 case MEMORYSIZE:
-                    typeBuilder.buildMemorySize(str);
+                    typeBuilder.buildMemorySize(currentType, str);
                     break;
                 case CRITICAL:
-                    deviceBuilder.buildCritical(str);
+                    deviceBuilder.buildCritical(currentDevice, str);
                     break;
                 case SENSITIVITY:
-                    typeBuilder.buildSensitivity(str);
+                    typeBuilder.buildSensitivity(currentType, str);
                     break;
                 case PORTS:
-                    typeBuilder.buildPort(str);
+                    typeBuilder.buildPort(currentType, str);
                     break;
                 default:
                     throw new EnumConstantNotPresentException(
@@ -129,6 +137,31 @@ public class DeviceHandler extends DefaultHandler {
         return devices;
     }
 
+    /**
+     * Method creates needed TypeBuilder by {@link Map} attributeMap
+     * and {@link String} type  and assigns it to typeBuilder field.
+    * */
+    private void initTypeBuilder(String type, Map<String, String> attributeMap) {
+        switch (type) {
+            case PROCESSOR:
+                typeBuilder = new ProcessorBuilderService();
+                break;
+            case HEAD_PHONES:
+                typeBuilder = new HeadPhonesBuilderService();
+                break;
+            case VIDEO_CARD:
+                typeBuilder = new VideoCardBuilderService();
+                break;
+            default:
+                break;
+        }
+        currentType = typeBuilder.buildType(attributeMap);
+    }
+
+    /**
+     * Method for converting {@link Attributes} attributes instance
+     * into the Map representation by Device Type.
+     */
     private Map<String, String> convertAttributesToMap(Attributes attributes, String type) {
         Map<String, String> attributeMap = new HashMap<>();
         String peripheralValue = attributes.getValue(PERIPHERAL);

@@ -17,6 +17,15 @@ public class XsdSchemaValidator {
 
     private static final Logger LOGGER = LogManager.getLogger(XsdSchemaValidator.class);
 
+    /**
+     * This method validates the our xml file by
+     * XSDSchema file and returns true if the validation
+     * was successful.
+     *
+     * @param xmlLocation - location of our XML file.
+     * @param xsdLocation - location of out XSD file.
+     * @throws ValidationException - if something goes wrong.
+     */
     public boolean validate(String xmlLocation, String xsdLocation) throws ValidationException {
         try {
             File xmlFile = new File(xmlLocation);

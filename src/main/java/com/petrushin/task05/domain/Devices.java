@@ -24,11 +24,4 @@ public class Devices {
         }
         return device;
     }
-
-    @Override
-    public String toString() {
-        return "Devices{" +
-                "device=" + device +
-                '}';
-    }
 }

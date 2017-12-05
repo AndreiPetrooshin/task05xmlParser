@@ -1,7 +1,6 @@
-package com.petrushin.task05.builder;
+package com.petrushin.task05.services.builder;
 
-import com.petrushin.task05.domain.Device;
-import com.petrushin.task05.domain.Type;
+import com.petrushin.task05.domain.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -12,22 +11,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.petrushin.task05.domain.DeviceConst.*;
+import static com.petrushin.task05.util.DeviceConst.*;
 
-public class DeviceDOMBuilder {
+/**
+ * This class helps build Device objects by using
+ * {@link DeviceBuilderService} and {@link TypeBuilderService} services.
+ *
+ * @author Andrei Petrushin;
+ * @version 1.0.0
+ */
+public class DeviceDOMBuilderService {
 
     private static final int FIRST_ELEMENT = 0;
 
     private List<Device> devices;
-    private TypeBuilder typeBuilder;
-    private DeviceBuilder deviceBuilder;
 
-    public DeviceDOMBuilder() {
+    public DeviceDOMBuilderService() {
         this.devices = new ArrayList<>();
-        this.typeBuilder = new TypeBuilder();
-        this.deviceBuilder = new DeviceBuilder(typeBuilder);
-    }
 
+    }
 
     public List<Device> buildDevices(Document document) {
         Element root = document.getDocumentElement();
@@ -40,22 +42,28 @@ public class DeviceDOMBuilder {
         return devices;
     }
 
-
     private Device buildDevice(Element element) {
-        typeBuilder = new TypeBuilder();
-        deviceBuilder = new DeviceBuilder(typeBuilder);
-
+        DeviceBuilderService deviceBuilder = new DeviceBuilderService();
         Map<String, String> attributeMap = new HashMap<>();
         String id = element.getAttribute(ID);
         attributeMap.put(ID, id);
         Device device = deviceBuilder.buildDevice(attributeMap);
-        initDeviceBuilder(element, deviceBuilder);
+
+        String name = getElementTextContent(element, NAME);
+        deviceBuilder.buildName(device, name);
+
+        String price = getElementTextContent(element, PRICE);
+        deviceBuilder.buildPrice(device, price);
+
+        String origin = getElementTextContent(element, ORIGIN);
+        deviceBuilder.buildOrigin(device, origin);
+
+        String critical = getElementTextContent(element, CRITICAL);
+        deviceBuilder.buildCritical(device, critical);
 
         Type type = buildType(element);
+        deviceBuilder.buildType(device, type);
 
-        typeBuilder.buildConsumption(element.getElementsByTagName(CONSUMPTION).item(0).getTextContent());
-        typeBuilder.buildGroup(element.getElementsByTagName(GROUP).item(0).getTextContent());
-        device.setType(type);
         return device;
     }
 
@@ -94,55 +102,57 @@ public class DeviceDOMBuilder {
         String coolerValue = element.getAttribute(COOLER);
         attributeMap.put(COOLER, coolerValue);
 
-        Type type = typeBuilder.buildType(VIDEO_CARD, attributeMap);
+        TypeBuilderService<VideoCard> videoCardBuilder = new VideoCardBuilderService();
+        VideoCard videoCard = videoCardBuilder.buildType(attributeMap);
 
         String consumption = getElementTextContent(element, CONSUMPTION);
-        typeBuilder.buildConsumption(consumption);
+        videoCardBuilder.buildConsumption(videoCard, consumption);
 
         String group = getElementTextContent(element, GROUP);
-        typeBuilder.buildGroup(group);
+        videoCardBuilder.buildGroup(videoCard, group);
 
         String frequency = getElementTextContent(element, FREQUENCY);
-        typeBuilder.buildFrequency(frequency);
+        videoCardBuilder.buildFrequency(videoCard, frequency);
 
         String memorySize = getElementTextContent(element, MEMORY_SIZE);
-        typeBuilder.buildMemorySize(memorySize);
+        videoCardBuilder.buildMemorySize(videoCard, memorySize);
 
         NodeList ports = element.getElementsByTagName(PORTS);
         for (int i = 0; i < ports.getLength(); i++) {
             Element portElement = (Element) ports.item(i);
-            typeBuilder.buildPort(portElement.getTextContent());
+            videoCardBuilder.buildPort(videoCard, portElement.getTextContent());
         }
-        return type;
+        return videoCard;
     }
 
     private Type buildHeadPhones(Element element) {
-        Map<String, String> attributeMap = new HashMap<>();
         String peripheral = element.getAttribute(PERIPHERAL);
+
+        Map<String, String> attributeMap = new HashMap<>();
         attributeMap.put(PERIPHERAL, peripheral);
 
-        Type type = typeBuilder.buildType(HEAD_PHONES, attributeMap);
+        TypeBuilderService<HeadPhones> headPhonesBuilder = new HeadPhonesBuilderService();
+        HeadPhones headPhones = headPhonesBuilder.buildType(attributeMap);
 
         String consumption = getElementTextContent(element, CONSUMPTION);
-        typeBuilder.buildConsumption(consumption);
+        headPhonesBuilder.buildConsumption(headPhones, consumption);
 
         String group = getElementTextContent(element, GROUP);
-        typeBuilder.buildGroup(group);
+        headPhonesBuilder.buildGroup(headPhones, group);
 
         String sensitivity = getElementTextContent(element, SENSITIVITY);
-        typeBuilder.buildSensitivity(sensitivity);
+        headPhonesBuilder.buildSensitivity(headPhones, sensitivity);
 
         NodeList ports = element.getElementsByTagName(PORTS);
         for (int i = 0; i < ports.getLength(); i++) {
             Element portElement = (Element) ports.item(i);
             String port = portElement.getTextContent();
-            typeBuilder.buildPort(port);
+            headPhonesBuilder.buildPort(headPhones, port);
         }
-        return type;
+        return headPhones;
     }
 
     private Type buildProcessor(Element element) {
-        Type type;
         Map<String, String> attributeMap = new HashMap<>();
 
         if (element.hasAttribute(PERIPHERAL)) {
@@ -153,38 +163,25 @@ public class DeviceDOMBuilder {
         String coolerValue = element.getAttribute(COOLER);
         attributeMap.put(COOLER, coolerValue);
 
-        type = typeBuilder.buildType(PROCESSOR, attributeMap);
+        TypeBuilderService<Processor> processorBuilder = new ProcessorBuilderService();
+        Processor processor = processorBuilder.buildType(attributeMap);
 
         String consumption = getElementTextContent(element, CONSUMPTION);
-        typeBuilder.buildConsumption(consumption);
+        processorBuilder.buildConsumption(processor, consumption);
 
         String group = getElementTextContent(element, GROUP);
-        typeBuilder.buildGroup(group);
+        processorBuilder.buildGroup(processor, group);
 
         String cores = getElementTextContent(element, CORES);
-        typeBuilder.buildCores(cores);
+        processorBuilder.buildCores(processor, cores);
 
         String frequency = getElementTextContent(element, FREQUENCY);
-        typeBuilder.buildFrequency(frequency);
+        processorBuilder.buildFrequency(processor, frequency);
 
         String socket = getElementTextContent(element, SOCKET);
-        typeBuilder.buildSocket(socket);
+        processorBuilder.buildSocket(processor, socket);
 
-        return type;
-    }
-
-    private void initDeviceBuilder(Element element, DeviceBuilder deviceBuilder) {
-        String name = getElementTextContent(element, NAME);
-        deviceBuilder.buildName(name);
-
-        String price = getElementTextContent(element, PRICE);
-        deviceBuilder.buildPrice(price);
-
-        String origin = getElementTextContent(element, ORIGIN);
-        deviceBuilder.buildOrigin(origin);
-
-        String critical = getElementTextContent(element, CRITICAL);
-        deviceBuilder.buildCritical(critical);
+        return processor;
     }
 
     private String getElementTextContent(Element element, String elementName) {

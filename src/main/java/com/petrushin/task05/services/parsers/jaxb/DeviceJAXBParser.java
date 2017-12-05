@@ -14,12 +14,17 @@ import javax.xml.bind.ValidationException;
 import java.io.File;
 import java.util.List;
 
+/**
+ * Class for parsing xml File by using
+ * JAXB model.
+ *
+ * @author Andrei Petrushin
+ * @version 1.0.0
+ */
+
 public class DeviceJAXBParser implements Parser {
 
     private static final Logger LOGGER = LogManager.getLogger(DeviceJAXBParser.class);
-
-    public DeviceJAXBParser() {
-    }
 
     @Override
     public List<Device> parse(String xmlLocation) {
