@@ -8,7 +8,7 @@
     <artifactId>com.petrushin.task05</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-
+    <!--    some text !-->
     <build>
         <plugins>
             <plugin>
