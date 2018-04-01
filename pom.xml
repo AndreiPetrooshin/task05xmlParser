@@ -9,6 +9,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <!--    some text !-->
+    <!--    new comm text !-->
     <build>
         <plugins>
             <plugin>
